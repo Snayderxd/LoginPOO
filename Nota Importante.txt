@@ -1,0 +1,14 @@
+Yo use sql server de microsft, por que se me resulta mas facil de utilizar.
+
+Base de datos con Sql Server.
+
+CREATE DATABASE DBPRUEBA
+
+USE DBPRUEBA
+
+CREATE TABLE USUARIO(
+IdUsuario int primar key identity,
+NombreUsuario varchar(50),
+Correo varchar(50),
+Clave varchar(100),
+)
