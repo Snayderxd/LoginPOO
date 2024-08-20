@@ -12,3 +12,8 @@ NombreUsuario varchar(50),
 Correo varchar(50),
 Clave varchar(100),
 )
+
+Cambios-
+
+Se agrego Vistas para la administracion de Productos de pan, 
+donde se puede integrar productos, editarlos, eliminarlos etc.
