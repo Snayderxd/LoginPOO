@@ -16,6 +16,9 @@ public partial class DbpruebaContext : DbContext
     }
 
     public virtual DbSet<Usuario> Usuarios { get; set; }
+    public DbSet<ProductosPan> ProductosPan { get; set; }
+
+
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) { }
 

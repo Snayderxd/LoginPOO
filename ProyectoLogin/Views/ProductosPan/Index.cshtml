@@ -1,0 +1,53 @@
+﻿@model IEnumerable<ProyectoLogin.Models.ProductosPan>
+
+@{
+    ViewData["Title"] = "Lista de Productos";
+    var searchString = ViewBag.SearchString as string; // Obtener el término de búsqueda del ViewBag
+}
+
+<div class="container mt-4">
+    <h2>@ViewData["Title"]</h2>
+
+    <p>
+        <a asp-action="Create" class="btn btn-primary">Crear Nuevo Producto</a>
+    </p>
+
+    <!-- Barra de búsqueda -->
+    <form asp-action="Index" method="get" class="mb-4">
+        <div class="input-group">
+            <input type="text" name="searchString" class="form-control" placeholder="Buscar por nombre" value="@searchString" />
+            <div class="input-group-append">
+                <button class="btn btn-primary" type="submit">Buscar</button>
+            </div>
+        </div>
+    </form>
+
+    <!-- Tabla de productos -->
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Cantidad</th>
+                <th>Precio</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Nombre</td>
+                    <td>@item.Cantidad</td>
+                    <td>@item.Precio.ToString("C")</td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning">Editar</a>
+                    </td>
+                    <td>
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Eliminar</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

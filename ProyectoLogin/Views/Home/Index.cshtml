@@ -15,19 +15,19 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
         // Efecto de desvanecimiento en el texto de bienvenida
         $('.jumbotron h1').hover(
-            function() {
+            function () {
                 $(this).addClass('animate__animated animate__rubberBand');
             },
-            function() {
+            function () {
                 $(this).removeClass('animate__animated animate__rubberBand');
             }
         );
 
         // Efecto de vibración en el botón al hacer clic
-        $('.btn-primary').on('click', function() {
+        $('.btn-primary').on('click', function () {
             $(this).addClass('animate__animated animate__headShake');
             setTimeout(() => {
                 $(this).removeClass('animate__animated animate__headShake');
