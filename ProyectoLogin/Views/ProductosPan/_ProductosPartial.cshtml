@@ -1,26 +1,5 @@
 ﻿@model IEnumerable<ProyectoLogin.Models.ProductosPan>
 
-@{
-    ViewData["Title"] = "Lista de Productos";
-}
-
-<h2>@ViewData["Title"]</h2>
-
-<!-- Botones para acciones globales -->
-<div class="mb-3">
-    <a asp-action="Create" class="btn btn-success">Crear Nuevo Producto</a>
-    <a asp-action="VerCarrito" class="btn btn-primary">Ver Carrito</a>
-</div>
-
-<!-- Formulario de búsqueda -->
-<form id="searchForm" class="mb-3">
-    <div class="input-group">
-        <input type="text" id="searchInput" class="form-control" name="searchString" placeholder="Buscar producto..." />
-        <button class="btn btn-outline-secondary" type="submit">Buscar</button>
-    </div>
-</form>
-
-<!-- Acordeón para cada producto -->
 <div class="accordion" id="productosAccordion">
     @foreach (var producto in Model)
     {
@@ -71,22 +50,3 @@
         </div>
     }
 </div>
-
-<!-- Script para búsqueda en vivo -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-    $(document).ready(function () {
-        $("#searchInput").on("keyup", function () {
-            var searchString = $(this).val();
-
-            $.ajax({
-                url: '@Url.Action("Index", "ProductosPan")',
-                type: 'GET',
-                data: { searchString: searchString },
-                success: function (data) {
-                    $("#productosAccordion").html(data);
-                }
-            });
-        });
-    });
-</script>

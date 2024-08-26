@@ -15,7 +15,7 @@ namespace ProyectoLogin.Servicios.Implementacion
 
         public async Task<Usuario> GetUsuario(string correo, string clave)
         {
-            Usuario usuario_encontrado = await _dbContext.Usuarios.Where(u => u.Correo == correo && u.Clave == clave)
+            Usuario usuario_encontrado = await _dbContext.Usuario.Where(u => u.Correo == correo && u.Clave == clave)
                  .FirstOrDefaultAsync();
 
             return usuario_encontrado;
@@ -23,7 +23,7 @@ namespace ProyectoLogin.Servicios.Implementacion
 
         public async Task<Usuario> SaveUsuario(Usuario modelo)
         {
-            _dbContext.Usuarios.Add(modelo);
+            _dbContext.Usuario.Add(modelo);
             await _dbContext.SaveChangesAsync();
             return modelo;
         }

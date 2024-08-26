@@ -1,0 +1,60 @@
+﻿@model ProyectoLogin.Models.Carrito
+
+@{
+    ViewData["Title"] = "Carrito de Compras";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<div class="accordion" id="carritoAccordion">
+    @if (Model.Items.Any())
+    {
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingOne">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                    Ver Productos en el Carrito
+                </button>
+            </h2>
+            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#carritoAccordion">
+                <div class="accordion-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Precio (C$)</th>
+                                <th>Cantidad</th>
+                                <th>Total (C$)</th>
+                                <th>Acciones</th> <!-- Columna para botones de acción -->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.Items)
+                            {
+                                <tr>
+                                    <td>@item.Producto.Nombre</td>
+                                    <td>C$ @item.Precio</td> <!-- Añadido C$ para consistencia en la moneda -->
+                                    <td>@item.Cantidad</td>
+                                    <td>C$ @(item.Precio * item.Cantidad)</td> <!-- Añadido C$ para consistencia en la moneda -->
+                                    <td>
+                                        <form asp-action="EliminarDelCarrito" method="post" onsubmit="return confirm('¿Estás seguro de que deseas eliminar este producto del carrito?');">
+                                            <input type="hidden" name="productoId" value="@item.ProductoId" />
+                                            <input type="hidden" name="carritoId" value="@item.CarritoId" />
+                                            <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    <h4>Total a Pagar: C$ @Model.Items.Sum(i => i.Precio * i.Cantidad)</h4>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <p>No hay productos en el carrito.</p>
+    }
+</div>
+
+<a asp-action="RealizarPago" class="btn btn-success">Proceder al Pago</a>

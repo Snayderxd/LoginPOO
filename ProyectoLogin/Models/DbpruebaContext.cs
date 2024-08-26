@@ -1,48 +1,67 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
-namespace ProyectoLogin.Models;
-
-public partial class DbpruebaContext : DbContext
+namespace ProyectoLogin.Models
 {
-    public DbpruebaContext()
+    public class DbpruebaContext : DbContext
     {
-    }
-
-    public DbpruebaContext(DbContextOptions<DbpruebaContext> options)
-        : base(options)
-    {
-    }
-
-    public virtual DbSet<Usuario> Usuarios { get; set; }
-    public DbSet<ProductosPan> ProductosPan { get; set; }
-
-
-
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) { }
-
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-        modelBuilder.Entity<Usuario>(entity =>
+        public DbpruebaContext(DbContextOptions<DbpruebaContext> options)
+            : base(options)
         {
-            entity.HasKey(e => e.IdUsuario).HasName("PK__USUARIO__5B65BF97D1F49851");
+        }
 
-            entity.ToTable("USUARIO");
+        public DbSet<Usuario> Usuario { get; set; }
+        public DbSet<ProductosPan> ProductosPan { get; set; }
+        public DbSet<Carrito> Carrito { get; set; }
+        public DbSet<CarritoItem> CarritoItem { get; set; }
 
-            entity.Property(e => e.Clave)
-                .HasMaxLength(100)
-                .IsUnicode(false);
-            entity.Property(e => e.Correo)
-                .HasMaxLength(50)
-                .IsUnicode(false);
-            entity.Property(e => e.NombreUsuario)
-                .HasMaxLength(50)
-                .IsUnicode(false);
-        });
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
 
-        OnModelCreatingPartial(modelBuilder);
+            // Configuración para Usuario
+            modelBuilder.Entity<Usuario>()
+                .HasKey(u => u.IdUsuario);
+
+            modelBuilder.Entity<Usuario>()
+                .Property(u => u.IdUsuario)
+                .ValueGeneratedOnAdd();
+
+            modelBuilder.Entity<Usuario>()
+                .Property(u => u.NombreUsuario)
+                .IsRequired()
+                .HasMaxLength(50);
+
+            modelBuilder.Entity<Usuario>()
+                .Property(u => u.Correo)
+                .IsRequired()
+                .HasMaxLength(50);
+
+            modelBuilder.Entity<Usuario>()
+                .Property(u => u.Clave)
+                .IsRequired()
+                .HasMaxLength(100);
+
+            // Configuración para Carrito
+            modelBuilder.Entity<Carrito>()
+                .HasKey(c => c.CarritoId);
+
+            modelBuilder.Entity<Carrito>()
+                .HasMany(c => c.Items)
+                .WithOne(ci => ci.Carrito)
+                .HasForeignKey(ci => ci.CarritoId);
+
+            // Configuración para CarritoItem
+            modelBuilder.Entity<CarritoItem>()
+                .HasKey(ci => new { ci.CarritoId, ci.ProductoId });
+
+            modelBuilder.Entity<CarritoItem>()
+                .HasOne(ci => ci.Producto)
+                .WithMany()
+                .HasForeignKey(ci => ci.ProductoId);
+
+            // Configuración para ProductosPan
+            modelBuilder.Entity<ProductosPan>()
+                .HasKey(p => p.Id);
+        }
     }
-
-    partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 }
